@@ -8,6 +8,7 @@
 
 #define READ_END 0
 #define WRITE_END 1
+#define NUM_CHILD 10
 
 
 //se ejecutarán 3(forks) procesos, se comunicarán con pipes 
@@ -19,11 +20,26 @@
 
 //	ls | cd Documentos | pwd 
 
+void multiplicacion(int n){
+	printf("Tabla de multiplicar del %d\n",n+1);
+	for(int j=1;j<=NUM_CHILD;j++){
+		printf("%d x %d = %d\n",n+1,j,(n+1)*j);
+	}
+	exit(0);
+}
+
 int main(){
 
 	int fd1[2], fd2[2];
 	int status, pid;
 	
+	for(int i=0;i<NUM_CHILD;i++){
+		if(fork()==0){
+			multiplicacion(i);
+		}
+	}
+	/*
+	//2) ejecución de comando en linux con llamadas al sistemas y tuberías
 	pipe(fd1);
 	pid=fork();
 	
@@ -69,7 +85,7 @@ int main(){
 	
 	wait(&status);
 	wait(&status);
-	wait(&status);
+	wait(&status);*/
 
 	return 0;
 }
