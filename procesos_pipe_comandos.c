@@ -20,6 +20,37 @@
 
 //	ls | cd Documentos | pwd 
 
+void multiplicacion(int);
+void exe_comandos(void);
+
+
+int main(){
+
+	int opc;
+	
+	printf("1) Tablas de multiplicar\n2)Ejecutar comandos de linux\n");
+	scanf("%d",&opc);
+	
+	switch(opc){
+	
+		case 1:
+			for(int i=0;i<NUM_CHILD;i++){
+				if(fork()==0){
+					multiplicacion(i);
+				}
+			}
+			break;
+			
+		case 2:
+			exe_comandos();
+			break;
+			
+			
+	}
+	
+	return 0;
+}
+
 void multiplicacion(int n){
 	printf("Tabla de multiplicar del %d\n",n+1);
 	for(int j=1;j<=NUM_CHILD;j++){
@@ -28,17 +59,9 @@ void multiplicacion(int n){
 	exit(0);
 }
 
-int main(){
-
+void exe_comandos(){
 	int fd1[2], fd2[2];
 	int status, pid;
-	
-	for(int i=0;i<NUM_CHILD;i++){
-		if(fork()==0){
-			multiplicacion(i);
-		}
-	}
-	/*
 	//2) ejecución de comando en linux con llamadas al sistemas y tuberías
 	pipe(fd1);
 	pid=fork();
@@ -85,7 +108,7 @@ int main(){
 	
 	wait(&status);
 	wait(&status);
-	wait(&status);*/
-
-	return 0;
+	wait(&status);
 }
+
+
